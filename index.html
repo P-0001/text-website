@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Text Cleaner - Remove Non-ASCII Characters</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="icon" href="fav.ico">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>ASCII Text Cleaner</h1>
+                    <p class="subtitle">Remove all non-ASCII characters from your text</p>
+                </div>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <label for="input-text">Input Text</label>
+                <textarea 
+                    id="input-text" 
+                    placeholder="Paste or type your text here..."
+                    rows="8"
+                ></textarea>
+                <div class="controls">
+                    <button id="clean-btn" class="primary-btn">Clean Text</button>
+                    <button id="clear-btn" class="secondary-btn">Clear</button>
+                </div>
+            </div>
+
+            <div class="options-section">
+                <h3>Options</h3>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="keep-em-dashes" checked>
+                        <span class="checkmark"></span>
+                        Keep em dashes (—) and en dashes (–)
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label for="blacklist-letters">Blacklist specific letters/characters:</label>
+                    <input 
+                        type="text" 
+                        id="blacklist-letters" 
+                        placeholder="e.g., aeiou or @#$"
+                        class="blacklist-input"
+                    >
+                    <small class="help-text">Enter characters to remove even if they are ASCII</small>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <label for="output-text">Cleaned Text (ASCII only)</label>
+                <textarea 
+                    id="output-text" 
+                    placeholder="Cleaned text will appear here..."
+                    rows="8"
+                    readonly
+                ></textarea>
+                <div class="controls">
+                    <button id="copy-btn" class="primary-btn">Copy Result</button>
+                    <span id="copy-status" class="status-message"></span>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>How it works</h2>
+                <p>This tool removes all characters that are not part of the ASCII character set (characters with codes 0-127). This includes:</p>
+                <ul>
+                    <li>Unicode characters (emojis, special symbols, accented letters)</li>
+                    <li>Extended ASCII characters (codes 128-255)</li>
+                    <li>Zero-width characters and invisible Unicode characters</li>
+                    <li>Non-Latin scripts (Chinese, Arabic, Cyrillic, etc.)</li>
+                </ul>
+                <p>Only basic ASCII characters (a-z, A-Z, 0-9, punctuation, and basic symbols) will remain.</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
