@@ -1,124 +1,28 @@
-// ASCII Text Cleaner - Remove all non-ASCII characters
+//67
 document.addEventListener('DOMContentLoaded', function () {
 
-
-    const typeable = [
-        32,
-        33,
-        34,
-        35,
-        36,
-        37,
-        38,
-        39,
-        40,
-        41,
-        42,
-        43,
-        44,
-        45,
-        46,
-        47,
-        48,
-        49,
-        50,
-        51,
-        52,
-        53,
-        54,
-        55,
-        56,
-        57,
-        58,
-        59,
-        60,
-        61,
-        62,
-        63,
-        64,
-        65,
-        66,
-        67,
-        68,
-        69,
-        70,
-        71,
-        72,
-        73,
-        74,
-        75,
-        76,
-        77,
-        78,
-        79,
-        80,
-        81,
-        82,
-        83,
-        84,
-        85,
-        86,
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95,
-        96,
-        97,
-        98,
-        99,
-        100,
-        101,
-        102,
-        103,
-        104,
-        105,
-        106,
-        107,
-        108,
-        109,
-        110,
-        111,
-        112,
-        113,
-        114,
-        115,
-        116,
-        117,
-        118,
-        119,
-        120,
-        121,
-        122,
-        123,
-        124
-    ]
-
-
-
-
+    const get = (e) => document.getElementById(e);
 
     // Get DOM elements
-    const inputText = document.getElementById('input-text');
-    const outputText = document.getElementById('output-text');
-    const cleanBtn = document.getElementById('clean-btn');
-    const clearBtn = document.getElementById('clear-btn');
-    const copyBtn = document.getElementById('copy-btn');
-    const copyStatus = document.getElementById('copy-status');
-    const keepEmDashesCheckbox = document.getElementById('keep-em-dashes');
-    const blacklistInput = document.getElementById('blacklist-letters');
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = document.querySelector('.theme-icon');
+    // bro this is js ik its not pretty but u dont need jquey in 2025 #savethebytes
+    const inputText = get('input-text');
+    const outputText = get('output-text');
+    const cleanBtn = get('clean-btn');
+    const clearBtn = get('clear-btn');
+    const copyBtn = get('copy-btn');
+    const copyStatus = get('copy-status');
+    const keepEmDashesCheckbox = get('keep-em-dashes');
+    const blacklistInput = get('blacklist-letters');
+    const themeToggle = get('theme-toggle');
+    const themeIcon = get('theme-icon');
 
     // Function to remove non-ASCII characters with options
     function removeNonAsciiCharacters(text = "", options = {}) {
         const { keepEmDashes = false, blacklistChars = '' } = options;
 
         let result = text;
+
+        // @todo add whitelist chars
 
         // First, remove non-ASCII characters
         // ASCII characters have codes 0-127
@@ -300,5 +204,5 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /*
-    9/11/25
+    9/16/25
 */

@@ -11,7 +11,7 @@ A modern web application that removes non-ASCII characters from text with custom
 - **Real-time Statistics**: Shows count of removed characters
 - **Copy to Clipboard**: One-click copying of cleaned text
 - **Responsive Design**: Works on desktop and mobile devices
-- **Keyboard Shortcuts**: 
+- **Keyboard Shortcuts**:
   - Ctrl/Cmd + Enter: Clean text
   - Ctrl/Cmd + K: Clear all
 
@@ -33,7 +33,7 @@ A modern web application that removes non-ASCII characters from text with custom
 
 ## Live Demo
 
-Visit the live application: [ASCII Text Cleaner](https://P-0001.github.io/ascii-text-cleaner)
+Visit the live application: [ASCII Text Cleaner](https://p-0001.github.io/text-website/)
 
 ## Local Development
 

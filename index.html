@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASCII Text Cleaner - Remove Non-ASCII Characters</title>
     <link rel="stylesheet" href="main.css">
-    <link rel="icon" href="fav.ico">
+    <link rel="icon" href="favicon.ico">
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -16,7 +18,7 @@
                     <p class="subtitle">Remove all non-ASCII characters from your text</p>
                 </div>
                 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-                    <span class="theme-icon">🌙</span>
+                    <span id="theme-icon" class="theme-icon">🌙</span>
                 </button>
             </div>
         </header>
@@ -24,11 +26,7 @@
         <main>
             <div class="input-section">
                 <label for="input-text">Input Text</label>
-                <textarea 
-                    id="input-text" 
-                    placeholder="Paste or type your text here..."
-                    rows="8"
-                ></textarea>
+                <textarea id="input-text" placeholder="Paste or type your text here..." rows="8"></textarea>
                 <div class="controls">
                     <button id="clean-btn" class="primary-btn">Clean Text</button>
                     <button id="clear-btn" class="secondary-btn">Clear</button>
@@ -46,24 +44,14 @@
                 </div>
                 <div class="option-group">
                     <label for="blacklist-letters">Blacklist specific letters/characters:</label>
-                    <input 
-                        type="text" 
-                        id="blacklist-letters" 
-                        placeholder="e.g., aeiou or @#$"
-                        class="blacklist-input"
-                    >
+                    <input type="text" id="blacklist-letters" placeholder="e.g., aeiou or @#$" class="blacklist-input">
                     <small class="help-text">Enter characters to remove even if they are ASCII</small>
                 </div>
             </div>
 
             <div class="output-section">
                 <label for="output-text">Cleaned Text (ASCII only)</label>
-                <textarea 
-                    id="output-text" 
-                    placeholder="Cleaned text will appear here..."
-                    rows="8"
-                    readonly
-                ></textarea>
+                <textarea id="output-text" placeholder="Cleaned text will appear here..." rows="8" readonly></textarea>
                 <div class="controls">
                     <button id="copy-btn" class="primary-btn">Copy Result</button>
                     <span id="copy-status" class="status-message"></span>
@@ -72,7 +60,8 @@
 
             <div class="info-section">
                 <h2>How it works</h2>
-                <p>This tool removes all characters that are not part of the ASCII character set (characters with codes 0-127). This includes:</p>
+                <p>This tool removes all characters that are not part of the ASCII character set (characters with codes
+                    0-127). This includes:</p>
                 <ul>
                     <li>Unicode characters (emojis, special symbols, accented letters)</li>
                     <li>Extended ASCII characters (codes 128-255)</li>
@@ -85,5 +74,10 @@
     </div>
 
     <script src="index.js"></script>
+    <div style="display: none;">
+        <!-- OPEN AI KEY  for ai chat-->
+        OPEN_AI_KEY=aSBsdXYgdmliZSBjb2Rpbmcgenp6enp6enp6enp6enp6eno=
+    </div>
 </body>
+
 </html>
