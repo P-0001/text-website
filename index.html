@@ -13,161 +13,289 @@
     <div class="container">
         <header>
             <div class="header-content">
-                <img src="static/logo_1024x1024.png" alt="ASCII Text Cleaner logo" class="header-logo">
-                <div class="header-text">
-                    <h1 class="gradient-title" aria-label="ASCII Text Cleaner">
-                        <span class="gradient-letter" style="--i:0" aria-hidden="true">A</span>
-                        <span class="gradient-letter" style="--i:1" aria-hidden="true">S</span>
-                        <span class="gradient-letter" style="--i:2" aria-hidden="true">C</span>
-                        <span class="gradient-letter" style="--i:3" aria-hidden="true">I</span>
-                        <span class="gradient-letter" style="--i:4" aria-hidden="true">I</span>
-                        <span class="gradient-letter gradient-letter--space" style="--i:5"
-                            aria-hidden="true">&nbsp;</span>
-                        <span class="gradient-letter" style="--i:6" aria-hidden="true">T</span>
-                        <span class="gradient-letter" style="--i:7" aria-hidden="true">e</span>
-                        <span class="gradient-letter" style="--i:8" aria-hidden="true">x</span>
-                        <span class="gradient-letter" style="--i:9" aria-hidden="true">t</span>
-                        <span class="gradient-letter gradient-letter--space" style="--i:10"
-                            aria-hidden="true">&nbsp;</span>
-                        <span class="gradient-letter" style="--i:11" aria-hidden="true">C</span>
-                        <span class="gradient-letter" style="--i:12" aria-hidden="true">l</span>
-                        <span class="gradient-letter" style="--i:13" aria-hidden="true">e</span>
-                        <span class="gradient-letter" style="--i:14" aria-hidden="true">a</span>
-                        <span class="gradient-letter" style="--i:15" aria-hidden="true">n</span>
-                        <span class="gradient-letter" style="--i:16" aria-hidden="true">e</span>
-                        <span class="gradient-letter" style="--i:17" aria-hidden="true">r</span>
-                    </h1>
-                    <p class="subtitle">Remove all non-ASCII characters from your text</p>
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <span class="logo-text">T.</span>
+                    </div>
+                    <div class="header-text">
+                        <h1>ASCII Text Cleaner</h1>
+                        <p class="subtitle">Remove all non-ASCII characters from your text</p>
+                    </div>
                 </div>
-                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-                    <span id="theme-icon" class="theme-icon">🌙</span>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                    <span id="theme-icon" class="theme-icon"></span>
                 </button>
             </div>
         </header>
 
-        <main>
-            <div class="input-section">
-                <label for="input-text">Input Text</label>
-                <textarea id="input-text" placeholder="Paste or type your text here..." rows="8"></textarea>
-                <div class="controls">
-                    <button id="clean-btn" class="primary-btn">Clean Text</button>
-                    <button id="clear-btn" class="secondary-btn">Clear</button>
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="clean">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 11l3 3l8 -8" />
+                    <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
+                </svg>
+                Clean
+            </button>
+            <button class="tab-btn" data-tab="diff">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3 -7 10 -7s10 7 10 7s-3 7 -10 7s-10 -7 -10 -7z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+                Diff
+            </button>
+            <button class="tab-btn" data-tab="stats">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 21v-13" />
+                    <path d="M9 21v-9" />
+                    <path d="M15 21v-5" />
+                    <path d="M21 21v-17" />
+                </svg>
+                Stats
+            </button>
+        </nav>
+
+        <main class="main-content">
+            <div class="tab-content active" id="clean-tab">
+                <div class="three-column-layout">
+                    <div class="left-panel">
+                        <div class="input-section">
+                            <div class="section-header">
+                                <label for="input-text">Input Text</label>
+                                <span class="char-count" id="input-char-count">0 chars</span>
+                            </div>
+                            <textarea id="input-text" placeholder="Paste or type your text here..."
+                                rows="10"></textarea>
+                            <div class="textarea-footer">
+                                <span class="cursor-position" id="input-cursor-pos">Line 1, Column 1</span>
+                            </div>
+                            <div class="controls">
+                                <button id="clean-btn" class="primary-btn">Clean Text</button>
+                                <button id="clear-btn" class="secondary-btn">Clear</button>
+                                <button id="upload-btn" class="secondary-btn">Upload File</button>
+                            </div>
+                        </div>
+
+                        <div class="output-section">
+                            <div class="section-header">
+                                <label for="output-text">Cleaned Text (ASCII only)</label>
+                                <span class="char-count" id="output-char-count">0 chars</span>
+                            </div>
+                            <textarea id="output-text" placeholder="Your cleaned ASCII text will appear here..."
+                                rows="10" readonly></textarea>
+                            <div class="controls">
+                                <button id="copy-btn" class="primary-btn">Copy Result</button>
+                                <button id="download-btn" class="secondary-btn">Download</button>
+                                <span id="copy-status" class="status-message"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="middle-panel">
+                        <h3>Options</h3>
+                        <div class="option-group">
+                            <label for="blacklist-letters" class="input-label">Blacklist specific
+                                letters/characters:</label>
+                            <input type="text" id="blacklist-letters" placeholder="e.g., aeiou or @#$"
+                                class="text-input">
+                            <small class="help-text">Enter characters to remove even if they are ASCII</small>
+                        </div>
+                        <div class="option-group">
+                            <label for="whitelist-letters" class="input-label">Whitelist specific characters:</label>
+                            <input type="text" id="whitelist-letters" placeholder="e.g., éñü or €~" class="text-input">
+                            <small class="help-text">Enter non-ASCII characters to keep</small>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="keep-em-dashes" checked>
+                                <span class="checkmark"></span>
+                                Keep em dashes (—) and en dashes (–)
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="remove-hidden-chars">
+                                <span class="checkmark"></span>
+                                Remove hidden characters
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="convert-nbsp">
+                                <span class="checkmark"></span>
+                                Convert non-breaking spaces
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="convert-ellipsis">
+                                <span class="checkmark"></span>
+                                Convert ellipsis (...)
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="remove-trailing-whitespace">
+                                <span class="checkmark"></span>
+                                Remove trailing whitespace
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="remove-asterisks">
+                                <span class="checkmark"></span>
+                                Remove asterisks (*)
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="remove-markdown-headings">
+                                <span class="checkmark"></span>
+                                Remove markdown headings
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="convert-lookalikes">
+                                <span class="checkmark"></span>
+                                Convert lookalike characters
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="normalize-unicode">
+                                <span class="checkmark"></span>
+                                Normalize Unicode forms
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="right-panel">
+                        <h3>Statistics</h3>
+                        <div class="stats-gauge">
+                            <svg class="gauge-svg" viewBox="0 0 200 200">
+                                <defs>
+                                    <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#7C3AED;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <circle class="gauge-bg" cx="100" cy="100" r="80" />
+                                <circle class="gauge-progress" cx="100" cy="100" r="80" id="gauge-circle" />
+                                <text class="gauge-text" x="100" y="100" id="gauge-percentage">0%</text>
+                                <text class="gauge-label" x="100" y="125">Removal Rate</text>
+                            </svg>
+                        </div>
+                        <div class="stats-list">
+                            <div class="stat-item">
+                                <span class="stat-label">Total Characters:</span>
+                                <span class="stat-value" id="stat-total">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Removed Characters:</span>
+                                <span class="stat-value" id="stat-removed">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Clean ASCII Characters:</span>
+                                <span class="stat-value" id="stat-clean">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Lines:</span>
+                                <span class="stat-value" id="stat-lines">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Words:</span>
+                                <span class="stat-value" id="stat-words">0</span>
+                            </div>
+                        </div>
+
+                        <div class="diff-controls">
+                            <div class="toggle-group">
+                                <label class="toggle-label">
+                                    <span>Show Difference (Diff)</span>
+                                    <input type="checkbox" id="show-diff" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="diff-mode" value="inline" checked>
+                                    <span>Inline</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="diff-mode" value="side-by-side">
+                                    <span>Side by side</span>
+                                </label>
+                            </div>
+                            <div class="color-legend">
+                                <span class="legend-label">Colors</span>
+                                <div class="legend-items">
+                                    <div class="legend-item">
+                                        <span class="color-box removed"></span>
+                                        <span>Removed</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="color-box retained"></span>
+                                        <span>Retained</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="options-section">
-                <h3>Options</h3>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="keep-em-dashes" checked>
-                        <span class="checkmark"></span>
-                        Keep em dashes (—) and en dashes (–)
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label for="blacklist-letters">Blacklist specific letters/characters:</label>
-                    <input type="text" id="blacklist-letters" placeholder="e.g., aeiou or @#$" class="blacklist-input">
-                    <small class="help-text">Enter characters to remove even if they are ASCII</small>
-                </div>
-                <div class="option-group">
-                    <label for="whitelist-letters">Whitelist specific characters:</label>
-                    <input type="text" id="whitelist-letters" placeholder="e.g., éñü or ©™" class="blacklist-input">
-                    <small class="help-text">Enter non-ASCII characters to keep</small>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="remove-hidden-chars">
-                        <span class="checkmark"></span>
-                        Remove hidden characters
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="convert-nbsp">
-                        <span class="checkmark"></span>
-                        Convert non-breaking spaces
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="normalize-dashes">
-                        <span class="checkmark"></span>
-                        Normalize dashes
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="normalize-quotes">
-                        <span class="checkmark"></span>
-                        Normalize quotes
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="convert-ellipsis">
-                        <span class="checkmark"></span>
-                        Convert ellipsis
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="remove-trailing-whitespace">
-                        <span class="checkmark"></span>
-                        Remove trailing whitespace
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="remove-asterisks">
-                        <span class="checkmark"></span>
-                        Remove asterisks (*)
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="remove-markdown-headings">
-                        <span class="checkmark"></span>
-                        Remove markdown headings
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="convert-lookalikes">
-                        <span class="checkmark"></span>
-                        Convert lookalike characters
-                    </label>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="normalize-unicode">
-                        <span class="checkmark"></span>
-                        Normalize Unicode forms
-                    </label>
+            <div class="tab-content" id="diff-tab">
+                <div class="diff-view">
+                    <h2>Difference View</h2>
+                    <div id="diff-container" class="diff-container">
+                        <p class="placeholder-text">Clean your text first to see the differences</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="output-section">
-                <label for="output-text">Cleaned Text (ASCII only)</label>
-                <textarea id="output-text" placeholder="Cleaned text will appear here..." rows="8" readonly></textarea>
-                <div class="controls">
-                    <button id="copy-btn" class="primary-btn">Copy Result</button>
-                    <span id="copy-status" class="status-message"></span>
+            <div class="tab-content" id="stats-tab">
+                <div class="stats-detailed">
+                    <h2>Detailed Statistics</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Character Analysis</h4>
+                            <div class="stat-item">
+                                <span class="stat-label">Total Characters:</span>
+                                <span class="stat-value" id="detailed-total">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">ASCII Characters:</span>
+                                <span class="stat-value" id="detailed-ascii">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Non-ASCII Characters:</span>
+                                <span class="stat-value" id="detailed-non-ascii">0</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Text Structure</h4>
+                            <div class="stat-item">
+                                <span class="stat-label">Lines:</span>
+                                <span class="stat-value" id="detailed-lines">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Words:</span>
+                                <span class="stat-value" id="detailed-words">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Paragraphs:</span>
+                                <span class="stat-value" id="detailed-paragraphs">0</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="info-section">
-                <h2>How it works</h2>
-                <p>This tool removes all characters that are not part of the ASCII character set (characters with codes
-                    0-127). This includes:</p>
-                <ul>
-                    <li>Unicode characters (emojis, special symbols, accented letters)</li>
-                    <li>Extended ASCII characters (codes 128-255)</li>
-                    <li>Zero-width characters and invisible Unicode characters</li>
-                    <li>Non-Latin scripts (Chinese, Arabic, Cyrillic, etc.)</li>
-                </ul>
-                <p>Only basic ASCII characters (a-z, A-Z, 0-9, punctuation, and basic symbols) will remain.</p>
             </div>
         </main>
+
+        <input type="file" id="file-input" accept=".txt,.md" style="display: none;">
     </div>
 
     <script src="index.js"></script>

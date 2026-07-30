@@ -117,14 +117,15 @@ if (typeof document !== 'undefined') {
             cleanBtn,
             clearBtn,
             copyBtn,
+            downloadBtn,
+            uploadBtn,
+            fileInput,
             copyStatus,
             keepEmDashesCheckbox,
             blacklistInput,
             whitelistInput,
             removeHiddenCharsCheckbox,
             convertNbspCheckbox,
-            normalizeDashesCheckbox,
-            normalizeQuotesCheckbox,
             convertEllipsisCheckbox,
             removeTrailingWhitespaceCheckbox,
             removeAsterisksCheckbox,
@@ -133,20 +134,31 @@ if (typeof document !== 'undefined') {
             normalizeUnicodeCheckbox,
             themeToggle,
             themeIcon,
+            inputCharCount,
+            outputCharCount,
+            inputCursorPos,
+            gaugePercentage,
+            gaugeCircle,
+            statTotal,
+            statRemoved,
+            statClean,
+            statLines,
+            statWords,
         ] = [
             'input-text',
             'output-text',
             'clean-btn',
             'clear-btn',
             'copy-btn',
+            'download-btn',
+            'upload-btn',
+            'file-input',
             'copy-status',
             'keep-em-dashes',
             'blacklist-letters',
             'whitelist-letters',
             'remove-hidden-chars',
             'convert-nbsp',
-            'normalize-dashes',
-            'normalize-quotes',
             'convert-ellipsis',
             'remove-trailing-whitespace',
             'remove-asterisks',
@@ -155,14 +167,38 @@ if (typeof document !== 'undefined') {
             'normalize-unicode',
             'theme-toggle',
             'theme-icon',
+            'input-char-count',
+            'output-char-count',
+            'input-cursor-pos',
+            'gauge-percentage',
+            'gauge-circle',
+            'stat-total',
+            'stat-removed',
+            'stat-clean',
+            'stat-lines',
+            'stat-words',
         ].map(e => document.getElementById(e));
+
+        // Tab Navigation
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.getAttribute('data-tab');
+
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                btn.classList.add('active');
+                document.getElementById(tabName + '-tab').classList.add('active');
+            });
+        });
 
         const checkboxOptions = [
             keepEmDashesCheckbox,
             removeHiddenCharsCheckbox,
             convertNbspCheckbox,
-            normalizeDashesCheckbox,
-            normalizeQuotesCheckbox,
             convertEllipsisCheckbox,
             removeTrailingWhitespaceCheckbox,
             removeAsterisksCheckbox,
@@ -178,8 +214,6 @@ if (typeof document !== 'undefined') {
                 whitelistChars: whitelistInput.value,
                 removeHiddenChars: removeHiddenCharsCheckbox.checked,
                 convertNbsp: convertNbspCheckbox.checked,
-                normalizeDashes: normalizeDashesCheckbox.checked,
-                normalizeQuotes: normalizeQuotesCheckbox.checked,
                 convertEllipsis: convertEllipsisCheckbox.checked,
                 removeTrailingWhitespace: removeTrailingWhitespaceCheckbox.checked,
                 removeAsterisks: removeAsterisksCheckbox.checked,
@@ -187,6 +221,62 @@ if (typeof document !== 'undefined') {
                 convertLookalikes: convertLookalikesCheckbox.checked,
                 normalizeUnicode: normalizeUnicodeCheckbox.checked,
             };
+        }
+
+        // Update statistics
+        function updateStats(inputVal, outputVal) {
+            const totalChars = inputVal.length;
+            const cleanChars = outputVal.length;
+            const removedChars = totalChars - cleanChars;
+            const removalRate = totalChars > 0 ? ((removedChars / totalChars) * 100).toFixed(2) : 0;
+
+            const lines = inputVal ? inputVal.split('\n').length : 0;
+            const words = inputVal ? inputVal.trim().split(/\s+/).filter(w => w.length > 0).length : 0;
+
+            // Update character counts
+            inputCharCount.textContent = `${totalChars.toLocaleString()} chars`;
+            outputCharCount.textContent = `${cleanChars.toLocaleString()} chars`;
+
+            // Update gauge
+            gaugePercentage.textContent = `${removalRate}%`;
+            const circumference = 2 * Math.PI * 80;
+            const offset = circumference - (removalRate / 100) * circumference;
+            gaugeCircle.style.strokeDashoffset = offset;
+
+            // Update stats list
+            statTotal.textContent = totalChars.toLocaleString();
+            statRemoved.textContent = removedChars.toLocaleString();
+            statClean.textContent = cleanChars.toLocaleString();
+            statLines.textContent = lines.toLocaleString();
+            statWords.textContent = words.toLocaleString();
+
+            // Update detailed stats tab
+            const detailedTotal = document.getElementById('detailed-total');
+            const detailedAscii = document.getElementById('detailed-ascii');
+            const detailedNonAscii = document.getElementById('detailed-non-ascii');
+            const detailedLines = document.getElementById('detailed-lines');
+            const detailedWords = document.getElementById('detailed-words');
+            const detailedParagraphs = document.getElementById('detailed-paragraphs');
+
+            if (detailedTotal) {
+                detailedTotal.textContent = totalChars.toLocaleString();
+                detailedAscii.textContent = cleanChars.toLocaleString();
+                detailedNonAscii.textContent = removedChars.toLocaleString();
+                detailedLines.textContent = lines.toLocaleString();
+                detailedWords.textContent = words.toLocaleString();
+                const paragraphs = inputVal ? inputVal.split(/\n\s*\n/).filter(p => p.trim().length > 0).length : 0;
+                detailedParagraphs.textContent = paragraphs.toLocaleString();
+            }
+        }
+
+        // Update cursor position
+        function updateCursorPosition() {
+            const pos = inputText.selectionStart;
+            const textBeforeCursor = inputText.value.substring(0, pos);
+            const lines = textBeforeCursor.split('\n');
+            const line = lines.length;
+            const col = lines[lines.length - 1].length + 1;
+            inputCursorPos.textContent = `Line ${line}, Column ${col}`;
         }
 
         let showInit;
@@ -212,32 +302,59 @@ if (typeof document !== 'undefined') {
                 return;
             }
 
-            // Get options
             const options = getOptions();
-
             const cleaned = removeNonAsciiCharacters(input, options);
             outputText.value = cleaned;
 
-            // Show statistics
-            const originalLength = input.length;
-            const cleanedLength = cleaned.length;
-            const removedCount = originalLength - cleanedLength;
+            updateStats(input, cleaned);
 
+            const removedCount = input.length - cleaned.length;
             if (removedCount > 0) {
-                let statusMessage = `Removed ${removedCount} character${removedCount === 1 ? '' : 's'}`;
-                if (options.keepEmDashes) {
-                    statusMessage += ' (kept em/en dashes)';
-                }
-                if (options.blacklistChars) {
-                    statusMessage += ` (blacklisted: ${options.blacklistChars})`;
-                }
-                if (options.whitelistChars) {
-                    statusMessage += ` (whitelisted: ${options.whitelistChars})`;
-                }
-                showStatus(statusMessage, true);
+                showStatus(`Removed ${removedCount} character${removedCount === 1 ? '' : 's'}`, true);
             } else {
                 showStatus('No characters removed', true);
             }
+        }
+
+        // File upload
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                inputText.value = event.target.result;
+                const cleaned = removeNonAsciiCharacters(inputText.value, getOptions());
+                outputText.value = cleaned;
+                updateStats(inputText.value, cleaned);
+                updateCursorPosition();
+                saveSettings();
+                showStatus('File uploaded successfully', true);
+            };
+            reader.onerror = function () {
+                showStatus('Failed to read file', false);
+            };
+            reader.readAsText(file);
+        }
+
+        // File download
+        function downloadResult() {
+            const text = outputText.value;
+            if (!text.trim()) {
+                showStatus('No text to download', false);
+                return;
+            }
+
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'cleaned-text.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showStatus('File downloaded', true);
         }
 
         // Clear all text
@@ -277,11 +394,17 @@ if (typeof document !== 'undefined') {
             if (this.value.trim()) {
                 const cleaned = removeNonAsciiCharacters(this.value, getOptions());
                 outputText.value = cleaned;
+                updateStats(this.value, cleaned);
             } else {
                 outputText.value = '';
+                updateStats('', '');
             }
             saveSettings();
         });
+
+        inputText.addEventListener('click', updateCursorPosition);
+        inputText.addEventListener('keyup', updateCursorPosition);
+        inputText.addEventListener('focus', updateCursorPosition);
 
 
         // Keyboard shortcuts
@@ -353,8 +476,6 @@ if (typeof document !== 'undefined') {
                 keepEmDashesCheckbox.checked = stored.keepEmDashes !== false;
                 removeHiddenCharsCheckbox.checked = stored.removeHiddenChars || false;
                 convertNbspCheckbox.checked = stored.convertNbsp || false;
-                normalizeDashesCheckbox.checked = stored.normalizeDashes || false;
-                normalizeQuotesCheckbox.checked = stored.normalizeQuotes || false;
                 convertEllipsisCheckbox.checked = stored.convertEllipsis || false;
                 removeTrailingWhitespaceCheckbox.checked = stored.removeTrailingWhitespace || false;
                 removeAsterisksCheckbox.checked = stored.removeAsterisks || false;
@@ -402,8 +523,6 @@ if (typeof document !== 'undefined') {
                 keepEmDashes: keepEmDashesCheckbox.checked,
                 removeHiddenChars: removeHiddenCharsCheckbox.checked,
                 convertNbsp: convertNbspCheckbox.checked,
-                normalizeDashes: normalizeDashesCheckbox.checked,
-                normalizeQuotes: normalizeQuotesCheckbox.checked,
                 convertEllipsis: convertEllipsisCheckbox.checked,
                 removeTrailingWhitespace: removeTrailingWhitespaceCheckbox.checked,
                 removeAsterisks: removeAsterisksCheckbox.checked,
@@ -421,11 +540,15 @@ if (typeof document !== 'undefined') {
 
         // Theme management
         function getStoredTheme() {
-            return localStorage.getItem('theme') || 'light';
+            return localStorage.getItem('theme') || 'dark';
         }
 
         function updateThemeIcon(theme) {
-            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+            if (theme === 'light') {
+                themeIcon.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg>';
+            } else {
+                themeIcon.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="M4.93 4.93l1.41 1.41" /><path d="M17.66 17.66l1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="M6.34 17.66l-1.41 1.41" /><path d="M19.07 4.93l-1.41 1.41" /></svg>';
+            }
         }
 
         function applyTheme(theme) {
@@ -435,8 +558,8 @@ if (typeof document !== 'undefined') {
         }
 
         function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             applyTheme(newTheme);
         }
 
@@ -454,10 +577,38 @@ if (typeof document !== 'undefined') {
         cleanBtn.addEventListener('click', cleanText);
         clearBtn.addEventListener('click', clearAll);
         copyBtn.addEventListener('click', copyResult);
+        downloadBtn.addEventListener('click', downloadResult);
+        uploadBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileUpload);
         themeToggle.addEventListener('click', toggleTheme);
-        checkboxOptions.forEach(cb => cb.addEventListener('change', saveSettings));
-        blacklistInput.addEventListener('input', saveSettings);
-        whitelistInput.addEventListener('input', saveSettings);
+        checkboxOptions.forEach(cb => cb.addEventListener('change', () => {
+            saveSettings();
+            if (inputText.value.trim()) {
+                const cleaned = removeNonAsciiCharacters(inputText.value, getOptions());
+                outputText.value = cleaned;
+                updateStats(inputText.value, cleaned);
+            }
+        }));
+        blacklistInput.addEventListener('input', () => {
+            saveSettings();
+            if (inputText.value.trim()) {
+                const cleaned = removeNonAsciiCharacters(inputText.value, getOptions());
+                outputText.value = cleaned;
+                updateStats(inputText.value, cleaned);
+            }
+        });
+        whitelistInput.addEventListener('input', () => {
+            saveSettings();
+            if (inputText.value.trim()) {
+                const cleaned = removeNonAsciiCharacters(inputText.value, getOptions());
+                outputText.value = cleaned;
+                updateStats(inputText.value, cleaned);
+            }
+        });
+
+        // Initialize stats
+        updateStats('', '');
+        updateCursorPosition();
 
         // Focus input on page load
         inputText.focus();
