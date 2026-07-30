@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASCII Text Cleaner - Remove Non-ASCII Characters</title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="static/main.css">
+    <link rel="icon" href="static/favicon.ico">
 </head>
 
 <body>
     <div class="container">
         <header>
             <div class="header-content">
+                <img src="static/logo_1024x1024.png" alt="ASCII Text Cleaner logo" class="header-logo">
                 <div class="header-text">
                     <h1 class="gradient-title" aria-label="ASCII Text Cleaner">
                         <span class="gradient-letter" style="--i:0" aria-hidden="true">A</span>
@@ -20,12 +21,14 @@
                         <span class="gradient-letter" style="--i:2" aria-hidden="true">C</span>
                         <span class="gradient-letter" style="--i:3" aria-hidden="true">I</span>
                         <span class="gradient-letter" style="--i:4" aria-hidden="true">I</span>
-                        <span class="gradient-letter gradient-letter--space" style="--i:5" aria-hidden="true">&nbsp;</span>
+                        <span class="gradient-letter gradient-letter--space" style="--i:5"
+                            aria-hidden="true">&nbsp;</span>
                         <span class="gradient-letter" style="--i:6" aria-hidden="true">T</span>
                         <span class="gradient-letter" style="--i:7" aria-hidden="true">e</span>
                         <span class="gradient-letter" style="--i:8" aria-hidden="true">x</span>
                         <span class="gradient-letter" style="--i:9" aria-hidden="true">t</span>
-                        <span class="gradient-letter gradient-letter--space" style="--i:10" aria-hidden="true">&nbsp;</span>
+                        <span class="gradient-letter gradient-letter--space" style="--i:10"
+                            aria-hidden="true">&nbsp;</span>
                         <span class="gradient-letter" style="--i:11" aria-hidden="true">C</span>
                         <span class="gradient-letter" style="--i:12" aria-hidden="true">l</span>
                         <span class="gradient-letter" style="--i:13" aria-hidden="true">e</span>
@@ -66,6 +69,81 @@
                     <input type="text" id="blacklist-letters" placeholder="e.g., aeiou or @#$" class="blacklist-input">
                     <small class="help-text">Enter characters to remove even if they are ASCII</small>
                 </div>
+                <div class="option-group">
+                    <label for="whitelist-letters">Whitelist specific characters:</label>
+                    <input type="text" id="whitelist-letters" placeholder="e.g., éñü or ©™" class="blacklist-input">
+                    <small class="help-text">Enter non-ASCII characters to keep</small>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="remove-hidden-chars">
+                        <span class="checkmark"></span>
+                        Remove hidden characters
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="convert-nbsp">
+                        <span class="checkmark"></span>
+                        Convert non-breaking spaces
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="normalize-dashes">
+                        <span class="checkmark"></span>
+                        Normalize dashes
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="normalize-quotes">
+                        <span class="checkmark"></span>
+                        Normalize quotes
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="convert-ellipsis">
+                        <span class="checkmark"></span>
+                        Convert ellipsis
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="remove-trailing-whitespace">
+                        <span class="checkmark"></span>
+                        Remove trailing whitespace
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="remove-asterisks">
+                        <span class="checkmark"></span>
+                        Remove asterisks (*)
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="remove-markdown-headings">
+                        <span class="checkmark"></span>
+                        Remove markdown headings
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="convert-lookalikes">
+                        <span class="checkmark"></span>
+                        Convert lookalike characters
+                    </label>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="normalize-unicode">
+                        <span class="checkmark"></span>
+                        Normalize Unicode forms
+                    </label>
+                </div>
             </div>
 
             <div class="output-section">
@@ -93,10 +171,6 @@
     </div>
 
     <script src="index.js"></script>
-    <div style="display: none;">
-        <!-- OPEN AI KEY  for ai chat-->
-        OPEN_AI_KEY=aSBsdXYgdmliZSBjb2Rpbmcgenp6enp6enp6enp6enp6eno=
-    </div>
 </body>
 
 </html>
