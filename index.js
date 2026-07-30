@@ -1,20 +1,27 @@
-//67
 document.addEventListener('DOMContentLoaded', function () {
-
-    const get = (e) => document.getElementById(e);
-
-    // Get DOM elements
-    // bro this is js ik its not pretty but u dont need jquey in 2025 #savethebytes
-    const inputText = get('input-text');
-    const outputText = get('output-text');
-    const cleanBtn = get('clean-btn');
-    const clearBtn = get('clear-btn');
-    const copyBtn = get('copy-btn');
-    const copyStatus = get('copy-status');
-    const keepEmDashesCheckbox = get('keep-em-dashes');
-    const blacklistInput = get('blacklist-letters');
-    const themeToggle = get('theme-toggle');
-    const themeIcon = get('theme-icon');
+    const [
+        inputText,
+        outputText,
+        cleanBtn,
+        clearBtn,
+        copyBtn,
+        copyStatus,
+        keepEmDashesCheckbox,
+        blacklistInput,
+        themeToggle,
+        themeIcon,
+    ] = [
+        'input-text',
+        'output-text',
+        'clean-btn',
+        'clear-btn',
+        'copy-btn',
+        'copy-status',
+        'keep-em-dashes',
+        'blacklist-letters',
+        'theme-toggle',
+        'theme-icon',
+    ].map(e => document.getElementById(e));
 
     // Function to remove non-ASCII characters with options
     function removeNonAsciiCharacters(text = "", options = {}) {
@@ -29,9 +36,9 @@ document.addEventListener('DOMContentLoaded', function () {
         result = result.replace(/[^\x00-\x7F]/g, (match) => {
             // If keeping em/en dashes, preserve them
             if (keepEmDashes && (match === '—' || match === '–')) {
-                return match;
+                return "-";
             }
-            return '';
+            return "";
         });
 
         // Then, remove blacklisted characters (even if they are ASCII)
@@ -202,7 +209,3 @@ document.addEventListener('DOMContentLoaded', function () {
     // Focus input on page load
     inputText.focus();
 });
-
-/*
-    9/16/25
-*/
